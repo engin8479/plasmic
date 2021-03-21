@@ -1,0 +1,237 @@
+const discord = require('discord.js');
+const Database = require("plasma-db");
+const db = new Database("./botlist.json"); 
+exports.run = async(client, message, args) => {
+const enginar = message.mentions.roles.first()
+if(!enginar) return message.channel.send('Lütfen bot rolünü belirt!')
+db.set(`botrol${message.guild.id}`, enginar.id)
+const embed = new discord.MessageEmbed()
+.setTitle('Başarı ile ayarlandı!')
+.setDescription(`Bot rolü az önce <@&${enginar.id}> olarak ayarlandı!`)
+.setColor('RANDOM')
+return message.channel.send(embed)
+};
+exports.conf = {
+enabled: true, 
+guildOnly: false,
+aliases: [],
+permLevel: 4
+
+
+};
+exports.help = {
+name : "bot-rol"
+
+
+};
+//
+const discord = require('discord.js');
+const Database = require("plasma-db");
+const db = new Database("./botlist.json"); 
+exports.run = async(client, message, args) => {
+const enginar = message.mentions.roles.first()
+if(!enginar) return message.channel.send('Lütfen tester rolünü belirt!')
+db.set(`testerrol${message.guild.id}`, enginar.id)
+const embed = new discord.MessageEmbed()
+.setTitle('Başarı ile ayarlandı!')
+.setDescription(`Bot tester rolü az önce <@&${enginar.id}> olarak ayarlandı!`)
+.setColor('RANDOM')
+return message.channel.send(embed)
+};
+exports.conf = {
+enabled: true, 
+guildOnly: false,
+aliases: [],
+permLevel: 4
+
+
+};
+exports.help = {
+name : "tester-rol"
+
+
+};
+//
+const discord = require('discord.js');
+const Database = require("plasma-db");
+const db = new Database("./botlist.json"); 
+exports.run = async(client, message, args) => {
+const enginar = message.mentions.channels.first()
+if(!enginar) return message.channel.send('Lütfen başvuru log kanalını belirt!')
+db.set(`başvurulog_${message.guild.id}`, enginar.id)
+const embed = new discord.MessageEmbed()
+.setTitle('Başarı ile ayarlandı!')
+.setDescription(`Başvuru log kanalı az önce <#${enginar.id}> olarak ayarlandı!`)
+.setColor('RANDOM')
+return message.channel.send(embed)
+};
+exports.conf = {
+enabled: true, 
+guildOnly: false,
+aliases: [],
+permLevel: 4
+
+
+};
+exports.help = {
+name : "başvuru-log"
+
+
+};
+//
+const discord = require('discord.js');
+const Database = require("plasma-db");
+const db = new Database("./botlist.json"); 
+exports.run = async(client, message, args) => {
+const enginar = message.mentions.channels.first()
+if(!enginar) return message.channel.send('Lütfen yetkili log kanalını belirt!')
+db.set(`yetkililog_${message.guild.id}`, enginar.id)
+const embed = new discord.MessageEmbed()
+.setTitle('Başarı ile ayarlandı!')
+.setDescription(`yetkili log kanalı az önce <#${enginar.id}> olarak ayarlandı!`)
+.setColor('RANDOM')
+return message.channel.send(embed)
+};
+exports.conf = {
+enabled: true, 
+guildOnly: false,
+aliases: [],
+permLevel: 4
+
+
+};
+exports.help = {
+name : "yetkili-log"
+
+
+};
+//
+const discord = require('discord.js');
+const Database = require("plasma-db");
+const db = new Database("./botlist.json"); 
+exports.run = async(client, message, args) => {
+const enginar = message.mentions.channels.first()
+if(!enginar) return message.channel.send('Lütfen başvurulog kanalını belirt!')
+db.set(`başvuruk_${message.guild.id}`, enginar.id)
+const embed = new discord.MessageEmbed()
+.setTitle('Başarı ile ayarlandı!')
+.setDescription(`başvuru log kanalı az önce <#${enginar.id}> olarak ayarlandı!`)
+.setColor('RANDOM')
+return message.channel.send(embed)
+};
+exports.conf = {
+enabled: true, 
+guildOnly: false,
+aliases: [],
+permLevel: 4
+
+
+};
+exports.help = {
+name : "başvuru-kanal"
+
+
+};
+//
+const discord = require('discord.js');
+const Database = require("plasma-db");
+const db = new Database("./botlist.json"); 
+exports.run = async(client, message, args) => {
+    let kanal = db.fetch(`başvuruk_${message.guild.id}`)
+    if (message.channel.id !== kanal) return message.channel.send(`Bu komutu sadece bot ekleme kanalında kullanabailirsin!`)
+    if (message.channel.id == kanal) {
+message.delete()
+    let eng = args[0] 
+    let engi = args[1]
+  let engin = args[2]
+  if(!eng) return message.channel.send('Botunun idini yaz')
+  if(!engi) return message.channel.send('Botunun prefixini yaz')
+  if(!engin) return message.channel.send('Botunun dbl onay durumunu yaz')
+let log = db.fetch(`başvurulog_${message.guild.id}`)
+client.channels.cache.get(log).send(`<@${message.author.id}>`)
+const embed = new discord.MessageEmbed()
+.setTitle('Yeni bir başvuru var!')
+.setDescription(`<@${message.author.id}> <@${eng}> adlı botu ile başvuru yaptı!  \n Botun prefixi: ${engi} \n Dbl onay durumu: ${engin}\n \n [Eklemek için tıkla!](https://discordapp.com/oauth2/authorize?client_id=${eng}&scope=bot&permissions=0)`)
+client.channels.cache.get(log).send(embed)
+message.channel.send(`Bot ekleme isteğiniz alındı!!!`)
+message.delete()
+};
+};
+exports.conf = {
+enabled: true, 
+guildOnly: false,
+aliases: [],
+permLevel: 0
+
+
+};
+exports.help = {
+    name : "bot-ekle"
+    
+    };
+//
+const discord = require('discord.js');
+const Database = require("plasma-db");
+const db = new Database("./botlist.json"); 
+exports.run = async(client, message, args) => {
+    let yetkili = db.fetch(`testerrol_${message.guild.id}`)
+    if(!message.member.roles.cache.has(yetkili)&& !message.member.hasPermission("ADMINISTATOR")) return message.channel.send('Sen yetkili değilsin')
+    let eng = args[0] 
+    let engi = args[1] 
+if(!eng) return message.channel.send('Lütfen onaylamak istediğin botun sahibininin idini at')
+if(!engi) return message.channel.send('Lütfen onaylamak istediğin botun  idini at ')
+let engin = db.fetch(`başvurulog_${message.guild.id}`)
+let engin2 = db.fetch(`yetkililog_${message.guild.id}`)
+const embed = new discord.MessageEmbed()
+.setTitle('Bir yetkili bot onayladı!')
+.setDescription(`<@${message.author.id}> adlı yetkili az önce <@${eng}> adlı kişinin <@${engi}> adlı botunu onayladı!`)
+.setColor('RANDOM')
+client.channels.cache.get(engin).send(`<@${eng}> adlı kişinin <@${engi}> adlı botu <@${message.author.id}> tarafından onaylandı!`)
+client.channels.cache.get(engin2).send(embed)
+message.channel.send('Bot onaylandı!')
+};
+exports.conf = {
+enabled: true, 
+guildOnly: false,
+aliases: [],
+permLevel: 0
+
+
+};
+exports.help = {
+    name : "bot-onayla"
+    
+    };
+//
+const discord = require('discord.js');
+const Database = require("plasma-db");
+const db = new Database("./botlist.json"); 
+exports.run = async(client, message, args) => {
+    let yetkili = db.fetch(`testerrol_${message.guild.id}`)
+    if(!message.member.roles.cache.has(yetkili)&& !message.member.hasPermission("ADMINISTATOR")) return message.channel.send('Sen yetkili değilsin')
+    let eng = args[0] 
+    let engi = args[1] 
+if(!eng) return message.channel.send('Lütfen reddetmek istediğin botun sahibininin idini at')
+if(!engi) return message.channel.send('Lütfen reddetmek istediğin botun  idini at ')
+let engin = db.fetch(`başvurulog_${message.guild.id}`)
+let engin2 = db.fetch(`yetkililog_${message.guild.id}`)
+const embed = new discord.MessageEmbed()
+.setTitle('Bir yetkili bot reddetti!')
+.setDescription(`<@${message.author.id}> adlı yetkili az önce <@${eng}> adlı kişinin <@${engi}> adlı botunu reddetti!`)
+.setColor('RANDOM')
+client.channels.cache.get(engin).send(`<@${eng}> adlı kişinin <@${engi}> adlı botu <@${message.author.id}> tarafından reddedildi!`)
+client.channels.cache.get(engin2).send(embed)
+message.channel.send('Bot reddedildi!')
+};
+exports.conf = {
+enabled: true, 
+guildOnly: false,
+aliases: [],
+permLevel: 0
+
+
+};
+exports.help = {
+    name : "bot-reddet"
+    
+    };
