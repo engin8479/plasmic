@@ -26,3 +26,44 @@ exports.conf = {
 exports.help = {
   name: 'sunucu-rozet-log'
 };
+//
+client.on("guildPartnerAdd", (guild) => {
+  const { Database } = require('nukleon');
+  const db = new Database("plasmic.json");
+  let log = db.fetch(`sunucurozetlog_${guild.id}`)
+  if(!log) return
+  const embed = new Discord.MessageEmbed()
+  .setTitle('Sunucumuz partner oldu!')
+  .setDescription('Partnerlik herkese hayırlı olsun!')
+  client.channels.cache.get(log).send(embed)
+});
+client.on("guildPartnerRemove", (guild) => {
+  const { Database } = require('nukleon');
+  const db = new Database("plasmic.json");
+  let log = db.fetch(`sunucurozetlog_${guild.id}`)
+  if(!log) return
+  const embed = new Discord.MessageEmbed()
+  .setTitle('Sunucumuzdan partnerlik alındı!')
+  .setDescription('üzdü :(')
+  client.channels.cache.get(log).send(embed)
+});
+client.on("guildVerificationAdd", (guild) => {
+  const { Database } = require('nukleon');
+  const db = new Database("plasmic.json");
+  let log = db.fetch(`sunucurozetlog_${guild.id}`)
+  if(!log) return
+  const embed = new Discord.MessageEmbed()
+  .setTitle('Sunucumuz doğrulandı!')
+  .setDescription('Herkese hayırlı olsun!')
+  client.channels.cache.get(log).send(embed)
+});
+client.on("guildVerificationRemove", (guild) => {
+  const { Database } = require('nukleon');
+  const db = new Database("plasmic.json");
+  let log = db.fetch(`sunucurozetlog_${guild.id}`)
+  if(!log) return
+  const embed = new Discord.MessageEmbed()
+  .setTitle('Sunucumuzun doğrulanmış rozeti kalktı!')
+  .setDescription('üzdü :(')
+  client.channels.cache.get(log).send(embed)
+});
